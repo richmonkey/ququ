@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>蛐蛐</title>
+    <meta content="text/html" charset="utf-8">
+
+    <style>
+        .page {
+            /*background: url(bg3.jpg) no-repeat;*/
+            background-size: cover;
+            background: url("bg3.png") no-repeat;
+            margin: 0;
+        }
+
+        #header {
+            width: 100%;
+            height: 59px;
+            position: relative;
+            -webkit-app-region: drag;
+        }
+
+        .close {
+            float: right;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            margin-top: 5px;
+            margin-right: 5px;
+            -webkit-app-region: no-drag;
+        }
+
+        .close img {
+            width: 100%;
+        }
+
+        .loadingImg {
+            width: 64px;
+            height: 64px;
+            margin: 200px auto 0;
+
+        }
+
+        .loadingImg img {
+            width: 64px;
+            -webkit-transform: perspective(150px) rotateY(0) scale(1);
+            -webkit-transition: all 2s ease;
+        }
+
+        .loadingText {
+
+            color: #ffffff;
+            margin: 30px auto 0;
+            width: 300px;
+            text-align: center;
+        }
+
+        .reload-btn {
+            margin: 20px auto;
+            width: 80px;
+            padding: 6px 0;
+            border: 2px solid #71c3fd;
+            text-align: center;
+            border-radius: 5px;
+            color: #71c3fd;
+            cursor: pointer;
+            display: none;
+        }
+
+        body {
+            font-family: "Open Sans", Arial, "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", "STHeiti", "WenQuanYi Micro Hei", SimSun, sans-serif;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body class="page">
+<div id="header">
+    <div class="close">
+        <img src="close.png"/>
+    </div>
+</div>
+<div class="loadingImg">
+    <img src="logo.png" id="loading-img"/>
+</div>
+<div class="loadingText" id="loadingText">加载中...</div>
+<div class="reload-btn" id="reloadBtn">重新加载</div>
+<script type="text/javascript" src="loadApp.js"></script>
+<script type="text/javascript">
+
+    var loadingText = document.getElementById('loadingText');
+    var loadingImg = document.getElementById('loading-img');
+    var reloadBtn = document.getElementById('reloadBtn');
+    document.querySelector(".close").addEventListener("click", function () {
+        var gui = require('nw.gui');
+        gui.App.quit();
+    });
+    function setLoadingText(msg) {
+        loadingText.innerHTML = msg;
+    }
+//    var update = function () {
+//        var gui = require('nw.gui');
+//        var pkg = require('../package.json'); // Insert your app's manifest here
+////        alert(JSON.stringify(pkg));
+//        var updater = require('node-webkit-updater');
+//        var upd = new updater(pkg);
+//        var copyPath, execPath;
+//
+//// Args passed when new app is launched from temp dir during update
+//        if (gui.App.argv.length) {
+//            // ------------- Step 5 -------------
+//            copyPath = gui.App.argv[0];
+//            execPath = gui.App.argv[1];
+//
+//            // Replace old app, Run updated app from original location and close temp instance
+//            upd.install(copyPath, function (err) {
+//                if (!err) {
+//
+//                    // ------------- Step 6 -------------
+//                    upd.run(execPath, null);
+//                    gui.App.quit();
+//                }
+//            });
+//        }
+//        else { // if no arguments were passed to the app
+//
+//            // ------------- Step 1 -------------
+//            upd.checkNewVersion(function (error, newVersionExists, manifest) {
+//                if (!error && newVersionExists) {
+//
+//                    // ------------- Step 2 -------------
+//                    console.log('manifest=====',upd.manifest);
+//                    upd.download(function (error, filename) {
+//                        console.log('step 2');
+//                        console.log(error);
+//                        if (!error) {
+//
+//                            // ------------- Step 3 -------------
+//                            upd.unpack(filename, function (error, newAppPath) {
+//                                if (!error) {
+//
+//                                    // ------------- Step 4 -------------
+//                                    upd.runInstaller(newAppPath, [upd.getAppPath(), upd.getAppExec()], {});
+//                                    gui.App.quit();
+//                                }
+//                            }, pkg);
+//                        }
+//                    }, pkg);
+//                }
+//            });
+//        }
+//    };
+    function checkConnetionUpdateText() {
+        if (!isConnected) {
+            setLoadingText('现在网络不稳定哦，检查您的网络吧！');
+            reloadBtn.style.display = 'block';
+        } else {
+            reloadBtn.style.display = 'none';
+            setLoadingText('加载中...');
+//            update();
+        }
+    }
+
+    handle(checkConnetionUpdateText);
+
+    reloadBtn.addEventListener('click', function () {
+        setLoadingText('加载中...');
+        reloadBtn.style.display = 'none';
+        clearInterval(reloadTimer);
+        //让加载中显示一下
+        setTimeout(function () {
+            startLoadApp(checkConnetionUpdateText);
+        }, 500);
+
+        reloadTimer = setInterval(function () {
+            startLoadApp(checkConnetionUpdateText);
+        }, 10 * 1000);
+    });
+
+    function animateLoading() {
+        var flag = false;
+
+        function animateHandle() {
+            if (!flag) {
+                loadingImg.style.webkitTransform = 'perspective(100px) rotateY(360deg) scale(1.8)';
+
+                flag = true;
+            } else {
+                loadingImg.style.webkitTransform = 'perspective(100px) rotateY(0deg) scale(1)';
+                flag = false;
+            }
+        }
+
+        setTimeout(function () {
+            animateHandle();
+        }, 0);
+
+        setInterval(function () {
+            animateHandle();
+        }, 2000);
+    }
+
+    animateLoading();
+</script>
+
+</body>
+</html>
