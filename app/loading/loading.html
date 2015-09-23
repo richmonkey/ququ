@@ -3,10 +3,8 @@
 <head>
     <title>蛐蛐</title>
     <meta content="text/html" charset="utf-8">
-
     <style>
         .page {
-            /*background: url(bg3.jpg) no-repeat;*/
             background-size: cover;
             background: url("bg3.png") no-repeat;
             margin: 0;
@@ -96,58 +94,58 @@
     function setLoadingText(msg) {
         loadingText.innerHTML = msg;
     }
-//    var update = function () {
-//        var gui = require('nw.gui');
-//        var pkg = require('../package.json'); // Insert your app's manifest here
-////        alert(JSON.stringify(pkg));
-//        var updater = require('node-webkit-updater');
-//        var upd = new updater(pkg);
-//        var copyPath, execPath;
-//
-//// Args passed when new app is launched from temp dir during update
-//        if (gui.App.argv.length) {
-//            // ------------- Step 5 -------------
-//            copyPath = gui.App.argv[0];
-//            execPath = gui.App.argv[1];
-//
-//            // Replace old app, Run updated app from original location and close temp instance
-//            upd.install(copyPath, function (err) {
-//                if (!err) {
-//
-//                    // ------------- Step 6 -------------
-//                    upd.run(execPath, null);
-//                    gui.App.quit();
-//                }
-//            });
-//        }
-//        else { // if no arguments were passed to the app
-//
-//            // ------------- Step 1 -------------
-//            upd.checkNewVersion(function (error, newVersionExists, manifest) {
-//                if (!error && newVersionExists) {
-//
-//                    // ------------- Step 2 -------------
-//                    console.log('manifest=====',upd.manifest);
-//                    upd.download(function (error, filename) {
-//                        console.log('step 2');
-//                        console.log(error);
-//                        if (!error) {
-//
-//                            // ------------- Step 3 -------------
-//                            upd.unpack(filename, function (error, newAppPath) {
-//                                if (!error) {
-//
-//                                    // ------------- Step 4 -------------
-//                                    upd.runInstaller(newAppPath, [upd.getAppPath(), upd.getAppExec()], {});
-//                                    gui.App.quit();
-//                                }
-//                            }, pkg);
-//                        }
-//                    }, pkg);
-//                }
-//            });
-//        }
-//    };
+    //    var update = function () {
+    //        var gui = require('nw.gui');
+    //        var pkg = require('../package.json'); // Insert your app's manifest here
+    ////        alert(JSON.stringify(pkg));
+    //        var updater = require('node-webkit-updater');
+    //        var upd = new updater(pkg);
+    //        var copyPath, execPath;
+    //
+    //// Args passed when new app is launched from temp dir during update
+    //        if (gui.App.argv.length) {
+    //            // ------------- Step 5 -------------
+    //            copyPath = gui.App.argv[0];
+    //            execPath = gui.App.argv[1];
+    //
+    //            // Replace old app, Run updated app from original location and close temp instance
+    //            upd.install(copyPath, function (err) {
+    //                if (!err) {
+    //
+    //                    // ------------- Step 6 -------------
+    //                    upd.run(execPath, null);
+    //                    gui.App.quit();
+    //                }
+    //            });
+    //        }
+    //        else { // if no arguments were passed to the app
+    //
+    //            // ------------- Step 1 -------------
+    //            upd.checkNewVersion(function (error, newVersionExists, manifest) {
+    //                if (!error && newVersionExists) {
+    //
+    //                    // ------------- Step 2 -------------
+    //                    console.log('manifest=====',upd.manifest);
+    //                    upd.download(function (error, filename) {
+    //                        console.log('step 2');
+    //                        console.log(error);
+    //                        if (!error) {
+    //
+    //                            // ------------- Step 3 -------------
+    //                            upd.unpack(filename, function (error, newAppPath) {
+    //                                if (!error) {
+    //
+    //                                    // ------------- Step 4 -------------
+    //                                    upd.runInstaller(newAppPath, [upd.getAppPath(), upd.getAppExec()], {});
+    //                                    gui.App.quit();
+    //                                }
+    //                            }, pkg);
+    //                        }
+    //                    }, pkg);
+    //                }
+    //            });
+    //        }
+    //    };
     function checkConnetionUpdateText() {
         if (!isConnected) {
             setLoadingText('现在网络不稳定哦，检查您的网络吧！');
@@ -197,7 +195,6 @@
             animateHandle();
         }, 2000);
     }
-
     animateLoading();
 </script>
 

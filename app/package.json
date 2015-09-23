@@ -8,14 +8,14 @@
   "user-agent": "Mozilla/5.0 (%osinfo) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/%webkit_ver Safari/537.36 nw",
   "single-instance": true,
   "window": {
-    "toolbar": false,
+    "toolbar": true,
     "min_width": 900,
     "min_height": 602,
     "width": 900,
     "height": 602,
     "icon": "res/logo.png",
     "resizable": true,
-    "frame": false
+    "frame": true
   },
   "webkit": {
     "plugin": true
