@@ -20,9 +20,9 @@ function handle(cb) {
     
     startLoadApp(cb);
 
-    reloadTimer = setInterval(function(){
-        startLoadApp(cb);
-    },20*1000);
+    //reloadTimer = setInterval(function(){
+    //    startLoadApp(cb);
+    //},20*1000);
 
     global.isLoading = true;
     global.currentWin = currentWin;    
@@ -38,14 +38,14 @@ function loadContentInCurrentWindow(currentWin, appUrl) {
 function checkNetworkConnected(cb){
     var timeStamp = '?t=' + new Date().getTime();
 
-    var indexHtml = "http://hulaquan.mobi/nw/network",indexHtmlWithTimeStamp = indexHtml+timeStamp;
+    var indexHtml = "http://czmin.com/nw/network",indexHtmlWithTimeStamp = indexHtml+timeStamp;
     var request = require('request');
     
     request(indexHtmlWithTimeStamp,function(err,res,body){
         if(err){
             return cb(err);
         }
-        //console.log(res);
+        console.log(res);
         if(res.statusCode === 200){
             return cb(null,true);
         }
@@ -56,17 +56,19 @@ function checkNetworkConnected(cb){
 
 function reloadAppRes(){
     if(!isLoadWindowOpen){
-        newWin = gui.Window.open(appUrl, {
-            "show": false
-        });
-        currentWin.on("close",function(){
-            newWin.close(true);
-            currentWin.close(true);
-        });
-        newWin.once("loaded", function () {
-            newWin.close(true);
-            loadContentInCurrentWindow(currentWin, appUrl);   
-        });
+        //newWin = gui.Window.open(appUrl, {
+        //    "show": false
+        //});
+        //currentWin.on("close",function(){
+        //    newWin.close(true);
+        //    currentWin.close(true);
+        //});
+        //newWin.once("loaded", function () {
+        //    newWin.close(true);
+        //    loadContentInCurrentWindow(currentWin, appUrl);
+        //});
+        loadContentInCurrentWindow(currentWin, appUrl);
+        console.log('is load windowOpen');
         isLoadWindowOpen = true;
     }else{
         newWin.window.location.href = appUrl;
@@ -95,7 +97,6 @@ function startLoadApp(cb){
         }
     });
 }
-
 /*function initApp(){
     var tray = new gui.Tray({
                 icon: './res/tray@2x.png'
