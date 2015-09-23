@@ -23,10 +23,12 @@ DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
 OutputDir=D:\ququ\dist
-OutputBaseFilename=ququ_setup
+OutputBaseFilename=ququ64_setup
 SetupIconFile=D:\ququ\assets\win\panda.ico
 Compression=lzma
 SolidCompression=yes
+ArchitecturesInstallIn64BitMode=x64
+ArchitecturesAllowed=x64
 
 [Languages]
 Name: "Chinese"; MessagesFile: "ChineseSimp.isl"
@@ -35,8 +37,8 @@ Name: "Chinese"; MessagesFile: "ChineseSimp.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "D:\ququ\dist\ququ\win32\ququ.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\ququ\dist\ququ\win32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "D:\ququ\dist\ququ\win64\ququ.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\ququ\dist\ququ\win64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
