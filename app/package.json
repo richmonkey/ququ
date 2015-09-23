@@ -21,7 +21,8 @@
     "plugin": true
   },
   "dependencies": {
-    "node-webkit-updater": "~0.2.3"
+    "node-webkit-updater": "~0.2.3",
+    "request": "^2.63.0"
   },
   "appUrl": "http://czmin.com/nw",
   "manifestUrl": "http://czmin.com/static/upgrade/menifest.json"

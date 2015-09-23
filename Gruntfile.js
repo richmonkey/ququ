@@ -7,7 +7,7 @@ module.exports = function(grunt) {
                 version: '0.12.3',
                 macIcns: "assets/osx/panda.icns",
                 macPlist: {
-                    "CFBundleIdentifier":"com.xxx.ququ",
+                    "CFBundleIdentifier":"com.wangsuo.ququ",
                 },
                 //winIco: "assets/win/panda.ico",
             },
