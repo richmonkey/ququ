@@ -38,6 +38,7 @@
     window._nwrequire = require;
 
     win.on('close', function () {
+        alert('close');
         this.hide();
     });
 
@@ -192,7 +193,7 @@
             menu.append(new gui.MenuItem({
                 label: "注销",
                 click: function () {
-                    gui.Window.get().focus();
+                    win.focus();
                     cb("注销");
                 }
             }));
