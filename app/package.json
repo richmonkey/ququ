@@ -24,6 +24,6 @@
     "node-webkit-updater": "~0.2.3",
     "request": "^2.63.0"
   },
-  "appUrl": "http://czmin.com/nw",
+  "appUrl": "../web_api/demo.html",
   "manifestUrl": "http://czmin.com/static/upgrade/menifest.json"
 }

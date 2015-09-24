@@ -36,32 +36,8 @@
         element.appendChild(document.createTextNode(text));
         document.body.appendChild(element);
     };
-    var menu = [
-        {
-            'label': '查看消息',
-            'click': function () {
-                demoCallback('加载消息');
-                Qu.tray.clearNew();
-            }
-        }, {
-            'type': 'checkbox',
-            'label': '静音',
-            'click': function () {
-                demoCallback('静音');
-            }
-        }, {
-            'label': '注销',
-            'click': function () {
-                demoCallback('注销');
-            }
-        }, {
-            'label': '退出',
-            'click': function () {
-                demoCallback('退出');
-                Qu.quit();
-            }
-        }];
-    Qu.tray.init({'title': '', 'tooltip': '点击打开', 'icon': '', 'menu': menu});
+
+    Qu.tray.init(demoCallback);
     document.getElementById('news').onclick = function () {
         Qu.tray.hasNew();
     };
