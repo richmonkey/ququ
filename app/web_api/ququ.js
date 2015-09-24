@@ -193,6 +193,7 @@
             menu.append(new gui.MenuItem({
                 label: "注销",
                 click: function () {
+                    win.show();
                     win.focus();
                     cb("注销");
                 }
