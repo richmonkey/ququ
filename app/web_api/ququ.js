@@ -36,6 +36,85 @@
     gui.App.clearCache();
     window._nwrequire = require;
 
+    function showNotification(title, body) {
+        // Let's check if the browser supports notifications
+        if (!("Notification" in window)) {
+            console.log("This browser does not support desktop notification");
+        }
+        
+        Notification.requestPermission(function (permission) {
+            // If the user accepts, let's create a notification
+            if (permission === "granted") {
+                var options = {
+                    //icon:"",
+                    body:body,
+                };
+                var notification = new Notification(title, options);
+                notification.onclick = function() {
+                    console.log("notification on click");
+                    Qu.tray.clearNew();
+                };
+                notification.onshow = function() {
+                    console.log("notification on show");
+                }
+            }
+        });
+    }
+
+    function playSound() {
+        var myAud=document.getElementById("player");
+        console.log("player:" + myAud);
+        myAud.play();
+    }
+
+    var hubConnection = $.hubConnection("http://117.27.143.80");
+    //hubConnection.qs = { };//需要传递QueryString参数
+    var hubProxy = hubConnection.createHubProxy("HubTest");
+    hubConnection.stateChanged(function (state) {
+        console.log("状态：[" + state.newState + "," + state.oldState);
+    });
+
+    hubConnection.disconnected(function (conn) {
+        cnosole.log("已断开连接", "red", 2);
+        Connect();
+    });
+    hubConnection.error(function (connection, errorData, sendData) {
+        console.log("发生错误：errorData[" + errorData + "] sendData[" + sendData + "]");
+    });
+    hubConnection.reconnecting(function (connection) {
+        console.log("正在重新连接...");
+    });
+    hubConnection.reconnected(function (connection) {
+        console.log("已重新连接，开始接收消息...");
+    });
+    hubConnection.starting(function (connection) {
+        console.log("正在连接...");
+    });
+    //接收消息
+    hubProxy.on("Receive", function (message) {
+        console.log(message);
+        showNotification("ququ", message);
+        if (!cfg.silent) {
+            playSound();
+        }
+        Qu.tray.hasNew();
+    });
+    
+    var Connect = function () {
+        hubConnection.start({ transport: ["webSockets", "serverSentEvents", "longPolling", "foreverFrame"] }).done(function () {
+            console.log("连接成功，开始接收消息...");
+        }).fail(function (error) {
+            console.log("连接出错：" + error);
+        });
+    };
+    Connect();
+
+    //发送测试消息
+    Qu.send = function() {
+        hubProxy.invoke("Send");
+    };
+
+
     Qu.close = function () {
         win.close()
     };
