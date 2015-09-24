@@ -22,7 +22,8 @@
   },
   "dependencies": {
     "node-webkit-updater": "~0.2.3",
-    "request": "^2.63.0"
+    "request": "^2.63.0",
+    "winreg": "0.0.12"
   },
   "appUrl": "../web_api/demo.html",
   "manifestUrl": "http://czmin.com/static/upgrade/menifest.json"

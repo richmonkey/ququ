@@ -10,10 +10,20 @@
     </style>
 </head>
 <body>
+
+
+
+<audio id="player" src="audio-file.wav">
+    Your browser does not support the audio element.
+</audio>
+
+
 <input type="button" id="close" value="close"/>
+
+
 <br/>
 <br/>
-<input type="button" id="news" value="新消息提醒"/>
+<input type="button" id="news" value="发送消息"/>
 <br/>
 <br/>
 <input type="button" id="clean" value="取消提醒"/>
@@ -22,10 +32,18 @@
 远程页面
 <br/>
 <br/>
+
+
 <!--<input type="button" id="add-tray" value="tray"/>-->
 <!--<input type="button" id="remove-tray" value="remove tray"/>-->
-<script>document.write(process.version); </script>
+
+
+<script src="jquery-1.11.2.min.js" type="text/javascript"></script>
+<script src="json2.min.js" type="text/javascript"></script>
+<script src="jquery.signalR-2.2.0.min.js" type="text/javascript"></script>
 <script src="ququ.js"></script>
+
+<script>document.write(process.version); </script>
 <script>
     document.getElementById('close').onclick = function () {
         Qu.close();
@@ -39,6 +57,7 @@
 
     Qu.tray.init(demoCallback);
     document.getElementById('news').onclick = function () {
+        Qu.send();
         Qu.tray.hasNew();
     };
     document.getElementById('clean').onclick = function () {
@@ -46,5 +65,6 @@
     };
 
 </script>
+
 </body>
 </html>
