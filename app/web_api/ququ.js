@@ -3,22 +3,22 @@
  */
 (function () {
     "use strict";
+
+
     window.Qu = window.Qu || {};
     //var ua = navigator.userAgent.toLowerCase();
     //var _isNodeWebkit = window.navigator.userAgent.indexOf('nw') !== -1;
+
     var gui = require('nw.gui');
-
     var launch = require("../web_api/launch.js");
-
-    
 
     var config = require("../web_api/config.js");
 
     var dataPath = gui.App.dataPath;
+
     var cfg = config.loadConfig(dataPath);
 
     console.log("data path:" + dataPath);
-
 
     launch.isOn(function(err, on) {
         if (on != cfg.autoStart) {
@@ -36,12 +36,16 @@
     gui.App.clearCache();
     window._nwrequire = require;
 
+    win.on('close', function() {
+        this.hide();
+    });
+
     function showNotification(title, body) {
         // Let's check if the browser supports notifications
         if (!("Notification" in window)) {
             console.log("This browser does not support desktop notification");
         }
-        
+
         Notification.requestPermission(function (permission) {
             // If the user accepts, let's create a notification
             if (permission === "granted") {
@@ -53,6 +57,8 @@
                 notification.onclick = function() {
                     console.log("notification on click");
                     Qu.tray.clearNew();
+                    win.show();
+                    win.focus();
                 };
                 notification.onshow = function() {
                     console.log("notification on show");
@@ -99,7 +105,7 @@
         }
         Qu.tray.hasNew();
     });
-    
+
     var Connect = function () {
         hubConnection.start({ transport: ["webSockets", "serverSentEvents", "longPolling", "foreverFrame"] }).done(function () {
             console.log("连接成功，开始接收消息...");
@@ -132,13 +138,19 @@
                 iconsAreTemplates: false
             });
 
+            tray.on("click", function() {
+                win.show();
+                win.focus();
+            });
+
             tray.tooltip = '点此打开';
             var menu = new gui.Menu();
 
             menu.append(new gui.MenuItem({
-                label: "查看消息", 
+                label: "查看消息",
                 click: function () {
-                    gui.Window.get().focus();
+                    win.show();
+                    win.focus();
                     Qu.tray.clearNew();
                     cb('加载消息');
                 }
@@ -147,7 +159,7 @@
             var autoStartItem = new gui.MenuItem({
                 type: "checkbox",
                 checked:cfg.autoStart,
-                label: "开机启动", 
+                label: "开机启动",
                 click: function () {
                     console.log("auto start:" + autoStartItem.checked);
                     cfg.autoStart = autoStartItem.checked;
@@ -165,7 +177,7 @@
             var silentItem = new gui.MenuItem({
                 type: "checkbox",
                 checked:cfg.silent,
-                label: "静音", 
+                label: "静音",
                 click: function () {
                     console.log("silent:" + silentItem.checked);
                     cfg.silent = silentItem.checked;
@@ -176,7 +188,7 @@
             menu.append(silentItem);
 
             menu.append(new gui.MenuItem({
-                label: "注销", 
+                label: "注销",
                 click: function () {
                     gui.Window.get().focus();
                     cb("注销");
@@ -184,13 +196,13 @@
             }));
 
             menu.append(new gui.MenuItem({
-                label: "退出", 
+                label: "退出",
                 click: function () {
                     cb("退出");
                     gui.App.quit();
                 }
             }));
-            
+
             tray.menu = menu;
         },
 
@@ -213,6 +225,10 @@
             tray.trayMenu.close();
         }
     };
+
+
+
+
     //};
     //    ///////////////tray/////////////////
     //    var gui = require('nw.gui');

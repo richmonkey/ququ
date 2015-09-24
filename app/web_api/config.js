@@ -40,7 +40,7 @@ function loadConfig(dataPath) {
     }
 
     if (needWrite) {
-        writeConfig(cfg);
+        writeConfig(dataPath, cfg);
     }
 
     return cfg;
@@ -48,4 +48,3 @@ function loadConfig(dataPath) {
 
 exports.writeConfig = writeConfig;
 exports.loadConfig = loadConfig;
-
