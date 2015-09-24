@@ -25,6 +25,7 @@
     "request": "^2.63.0",
     "winreg": "0.0.12"
   },
-  "appUrl": "../web_api/demo.html",
+  "backgroundUrl": "../web_api/demo.html",
+  "appUrl": "http://www.baidu.com",
   "manifestUrl": "http://czmin.com/static/upgrade/menifest.json"
 }

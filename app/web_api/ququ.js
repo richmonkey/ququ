@@ -20,7 +20,7 @@
 
     console.log("data path:" + dataPath);
 
-    launch.isOn(function(err, on) {
+    launch.isOn(function (err, on) {
         if (on != cfg.autoStart) {
             if (cfg.autoStart) {
                 launch.enableLaunch();
@@ -30,13 +30,14 @@
         }
     });
 
-    var win = gui.Window.get();
+    //var win = gui.Window.get();
+    var win = global.currentWin;
     var tray = null;
     var timer = 0;
     gui.App.clearCache();
     window._nwrequire = require;
 
-    win.on('close', function() {
+    win.on('close', function () {
         this.hide();
     });
 
@@ -51,16 +52,16 @@
             if (permission === "granted") {
                 var options = {
                     //icon:"",
-                    body:body,
+                    body: body,
                 };
                 var notification = new Notification(title, options);
-                notification.onclick = function() {
+                notification.onclick = function () {
                     console.log("notification on click");
                     Qu.tray.clearNew();
                     win.show();
                     win.focus();
                 };
-                notification.onshow = function() {
+                notification.onshow = function () {
                     console.log("notification on show");
                 }
             }
@@ -68,7 +69,7 @@
     }
 
     function playSound() {
-        var myAud=document.getElementById("player");
+        var myAud = document.getElementById("player");
         console.log("player:" + myAud);
         myAud.play();
     }
@@ -107,7 +108,7 @@
     });
 
     var Connect = function () {
-        hubConnection.start({ transport: ["webSockets", "serverSentEvents", "longPolling", "foreverFrame"] }).done(function () {
+        hubConnection.start({transport: ["webSockets", "serverSentEvents", "longPolling", "foreverFrame"]}).done(function () {
             console.log("连接成功，开始接收消息...");
         }).fail(function (error) {
             console.log("连接出错：" + error);
@@ -116,7 +117,7 @@
     Connect();
 
     //发送测试消息
-    Qu.send = function() {
+    Qu.send = function () {
         hubProxy.invoke("Send");
     };
 
@@ -133,12 +134,12 @@
     Qu.tray = {
         init: function (cb) {
             tray = tray || new gui.Tray({
-                title: '',
-                icon: './res/tray.png',
-                iconsAreTemplates: false
-            });
+                    title: '',
+                    icon: './res/tray.png',
+                    iconsAreTemplates: false
+                });
 
-            tray.on("click", function() {
+            tray.on("click", function () {
                 win.show();
                 win.focus();
             });
@@ -151,6 +152,7 @@
                 click: function () {
                     win.show();
                     win.focus();
+                    Qu.send();
                     Qu.tray.clearNew();
                     cb('加载消息');
                 }
@@ -158,7 +160,7 @@
 
             var autoStartItem = new gui.MenuItem({
                 type: "checkbox",
-                checked:cfg.autoStart,
+                checked: cfg.autoStart,
                 label: "开机启动",
                 click: function () {
                     console.log("auto start:" + autoStartItem.checked);
@@ -176,7 +178,7 @@
 
             var silentItem = new gui.MenuItem({
                 type: "checkbox",
-                checked:cfg.silent,
+                checked: cfg.silent,
                 label: "静音",
                 click: function () {
                     console.log("silent:" + silentItem.checked);
@@ -227,51 +229,6 @@
     };
 
 
-
-
     //};
-    //    ///////////////tray/////////////////
-    //    var gui = require('nw.gui');
-    //    var CustomTrayMenu = require('./custom_tray_menu');
-    //
-    //    // Extend application menu for Mac OS
-    //    if (process.platform == "darwin") {
-    //        var menu = new gui.Menu({type: "menubar"});
-    //        menu.createMacBuiltin && menu.createMacBuiltin(window.document.title);
-    //        gui.Window.get().menu = menu;
-    //    }
-    //
-    //    var $ = function (selector) {
-    //        return document.querySelector(selector);
-    //    };
-    //
-    //    var customTray;
-    //
-    //    document.addEventListener('DOMContentLoaded', function () {
-    //        $('#add-tray').addEventListener('click', function () {
-    //            if (!customTray) {
-    //                customTray = new CustomTrayMenu('custom-tray-menu.html', 'tray.png', {
-    //                    width: 185,
-    //                    height: 143
-    //                });
-    //            }
-    //        });
-    //
-    //        $('#remove-tray').addEventListener('click', function () {
-    //            if (customTray) {
-    //                customTray.remove();
-    //                customTray = undefined;
-    //            }
-    //        });
-    //
-    //        // bring window to front when open via terminal
-    //        gui.Window.get().focus();
-    //
-    //        // for nw-notify frameless windows
-    //        gui.Window.get().on('close', function () {
-    //            gui.App.quit();
-    //        });
-    //    });
-    //    //////////////tray////////////////
 
 }());

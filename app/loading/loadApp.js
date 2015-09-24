@@ -1,11 +1,14 @@
 ﻿var gui = require('nw.gui');
 var appUrl = gui.App.manifest.appUrl;
+var backgroundUrl = gui.App.manifest.backgroundUrl;
 var newWin = null,
     currentWin = null,
+    backgroundWin = null,
     isConnected = true,
     reloadTimer = null,
     isLoadWindowOpen = false,
     lastNetState = false;
+
 
 gui.App.clearCache(); // 清除缓存
 
@@ -44,10 +47,13 @@ function checkNetworkConnected(cb) {
 
 function reloadAppRes() {
     if (!isLoadWindowOpen) {
+        backgroundWin = gui.Window.open(backgroundUrl, {
+            "show": false
+        });
         newWin = gui.Window.open(appUrl, {
             "show": false
         });
-        currentWin.on("close",function(){
+        currentWin.on("close", function () {
             newWin.close(true);
             currentWin.close(true);
         });
@@ -83,12 +89,3 @@ function startLoadApp(cb) {
         }
     });
 }
-/*function initApp(){
- var tray = new gui.Tray({
- icon: './res/tray@2x.png'
- });
- global.tray = tray;
- }*/
-
-//initApp();
-//handle();
