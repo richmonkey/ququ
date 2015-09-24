@@ -245,7 +245,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Source: "dist\ququ\win32\ququ.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dist\ququ\win32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "lodop\*"; DestDir: "{pf}\MountTaiSoftware\Lodop"; Flags: ignoreversion
-Source: "jatools\*"; DestDir: "{pf}}\jatools"; Flags: ignoreversion
+Source: "jatools\*"; DestDir: "{pf}\jatools"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
