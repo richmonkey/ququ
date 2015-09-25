@@ -1,8 +1,54 @@
+<!DOCTYPE html>
 <html>
 <head>
-<title>Hello World!</title>
+    <title>蛐蛐</title>
+    <meta content="text/html" charset="utf-8">
 </head>
+
 <body>
-<h1>Hello World!</h1>
+<script type="text/javascript">
+  var gui = require('nw.gui');
+  var currentWin = gui.Window.get();
+  var backgroundUrl = gui.App.manifest.backgroundUrl;
+  var gui = require('nw.gui');
+  
+  var backgroundWin = gui.Window.open(backgroundUrl, {
+      "show":false
+  });
+
+  var mainWindow = gui.Window.open("loading/loading.html", {
+      "show":true
+  });
+
+  mainWindow.on("close", function (quit) {
+      if (quit) {
+          this.close(true);
+      } else {
+          this.hide();
+      }
+  });
+
+  mainWindow.on('focus', function () {
+      this.show();
+  });
+
+  gui.App.on('reopen', function () {
+      mainWindow.show();
+  });
+
+  backgroundWin.once("loaded", function() {
+      console.log("clear reloadTimer");
+      clearInterval(reloadTimer);
+  });
+
+  var reloadTimer = setInterval(function () {
+      console.log("reload load background page");
+      backgroundWin.window.location.href = backgroundUrl;
+  }, 20 * 1000);
+
+  process.mainModule.exports.mainWindow = mainWindow;
+  process.mainModule.exports.backgroundWindow = backgroundWin;
+
+</script>
 </body>
 </html>

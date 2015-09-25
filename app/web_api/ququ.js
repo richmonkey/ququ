@@ -10,14 +10,12 @@
     //var _isNodeWebkit = window.navigator.userAgent.indexOf('nw') !== -1;
 
     var gui = require('nw.gui');
-    var launch = require("../web_api/launch.js");
+    var mainWindow = process.mainModule.exports.mainWindow;
 
-    var config = require("../web_api/config.js");
-
+    var launch = require("./web_api/launch.js");
+    var config = require("./web_api/config.js");
     var dataPath = gui.App.dataPath;
-
     var cfg = config.loadConfig(dataPath);
-
     console.log("data path:" + dataPath);
 
     launch.isOn(function (err, on) {
@@ -30,23 +28,12 @@
         }
     });
 
-    //var win = gui.Window.get();
-    var win = global.currentWin;
-    var backgroundWin = global.backgroundWin;
+    
     var tray = null;
     var timer = 0;
-    gui.App.clearCache();
     window._nwrequire = require;
 
-    win.on('close', function () {
-        this.hide();
-    });
-    win.on('focus', function () {
-        win.show();
-    });
-    gui.App.on('reopen', function () {
-        win.show();
-    });
+
     function showNotification(title, body) {
         // Let's check if the browser supports notifications
         if (!("Notification" in window)) {
@@ -64,8 +51,8 @@
                 notification.onclick = function () {
                     console.log("notification on click");
                     Qu.tray.clearNew();
-                    win.show();
-                    win.focus();
+                    mainWindow.show();
+                    mainWindow.focus();
                 };
                 notification.onshow = function () {
                     console.log("notification on show");
@@ -129,15 +116,12 @@
 
 
     Qu.close = function () {
-        win.close();
-        backgroundWin.close();
+        mainWindow.close();
     };
     Qu.hide = function () {
-        win.hide()
+        mainWindow.hide()
     };
-    Qu.quit = function () {
-        gui.App.quit();
-    };
+
     Qu.tray = {
         init: function (cb) {
             tray = tray || new gui.Tray({
@@ -147,8 +131,8 @@
                 });
 
             tray.on("click", function () {
-                win.show();
-                win.focus();
+                mainWindow.show();
+                mainWindow.focus();
             });
 
             tray.tooltip = '点此打开';
@@ -157,8 +141,8 @@
             menu.append(new gui.MenuItem({
                 label: "查看消息",
                 click: function () {
-                    win.show();
-                    win.focus();
+                    mainWindow.show();
+                    mainWindow.focus();
                     Qu.send();
                     Qu.tray.clearNew();
                     cb('加载消息');
@@ -199,8 +183,8 @@
             menu.append(new gui.MenuItem({
                 label: "注销",
                 click: function () {
-                    win.show();
-                    win.focus();
+                    mainWindow.show();
+                    mainWindow.focus();
                     cb("注销");
                 }
             }));
@@ -208,8 +192,8 @@
             menu.append(new gui.MenuItem({
                 label: "退出",
                 click: function () {
-                    cb("退出");
-                    gui.App.quit();
+                    console.log("quit...");
+                    process.exit(0);
                 }
             }));
 

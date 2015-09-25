@@ -1,9 +1,7 @@
 ﻿var gui = require('nw.gui');
 var appUrl = gui.App.manifest.appUrl;
-var backgroundUrl = gui.App.manifest.backgroundUrl;
 var newWin = null,
     currentWin = null,
-    backgroundWin = null,
     isConnected = true,
     reloadTimer = null,
     isLoadWindowOpen = false,
@@ -13,32 +11,20 @@ var newWin = null,
 gui.App.clearCache(); // 清除缓存
 
 function handle(cb) {
-
     currentWin = gui.Window.get();
-    currentWin.on("close", function () {
-        //newWin.close(true);
-        backgroundWin && backgroundWin.close(true);
-        currentWin && currentWin.close(true);
-    });
-
     startLoadApp(cb);
 
     reloadTimer = setInterval(function () {
         startLoadApp(cb);
     }, 20 * 1000);
 
-    backgroundWin = gui.Window.open(backgroundUrl, {
-        "show":false
-    });
     global.isLoading = true;
     global.currentWin = currentWin;
-    global.backgroundWin = backgroundWin;
 }
 
 
 //让加载页窗口跳转到newWin后台打开的项目首页（可直接复用缓存到浏览器中的项目首页资源）
 function loadContentInCurrentWindow(currentWin, appUrl) {
-    currentWin.removeAllListeners("close");
     currentWin.window.location.href = appUrl;
 }
 
@@ -55,11 +41,7 @@ function reloadAppRes() {
         newWin = gui.Window.open(appUrl, {
             "show": false
         });
-        currentWin.on("close", function () {
-            newWin && newWin.close(true);
-            //currentWin && currentWin.close(true);
-            backgroundWin && backgroundWin.close(true);
-        });
+
         newWin.once("loaded", function () {
             newWin.close(true);
             loadContentInCurrentWindow(currentWin, appUrl);
