@@ -24,6 +24,7 @@ function main() {
 
     var appName = "ququ";
     if (process.platform === 'darwin') {
+        exports.firstStart = true;
         return;
     }
 
