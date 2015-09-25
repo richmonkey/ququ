@@ -17,7 +17,8 @@ function handle(cb) {
     currentWin = gui.Window.get();
     currentWin.on("close", function () {
         //newWin.close(true);
-        currentWin.close(true);
+        backgroundWin && backgroundWin.close(true);
+        currentWin && currentWin.close(true);
     });
 
     startLoadApp(cb);
@@ -26,8 +27,12 @@ function handle(cb) {
         startLoadApp(cb);
     }, 20 * 1000);
 
+    backgroundWin = gui.Window.open(backgroundUrl, {
+        "show":false
+    });
     global.isLoading = true;
     global.currentWin = currentWin;
+    global.backgroundWin = backgroundWin;
 }
 
 
@@ -47,15 +52,13 @@ function checkNetworkConnected(cb) {
 
 function reloadAppRes() {
     if (!isLoadWindowOpen) {
-        backgroundWin = gui.Window.open(backgroundUrl, {
-            "show": false
-        });
         newWin = gui.Window.open(appUrl, {
             "show": false
         });
         currentWin.on("close", function () {
-            newWin.close(true);
-            currentWin.close(true);
+            newWin && newWin.close(true);
+            //currentWin && currentWin.close(true);
+            backgroundWin && backgroundWin.close(true);
         });
         newWin.once("loaded", function () {
             newWin.close(true);

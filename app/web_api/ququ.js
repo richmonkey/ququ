@@ -32,16 +32,21 @@
 
     //var win = gui.Window.get();
     var win = global.currentWin;
+    var backgroundWin = global.backgroundWin;
     var tray = null;
     var timer = 0;
     gui.App.clearCache();
     window._nwrequire = require;
 
     win.on('close', function () {
-        alert('close');
         this.hide();
     });
-
+    win.on('focus', function () {
+        win.show();
+    });
+    gui.App.on('reopen', function () {
+        win.show();
+    });
     function showNotification(title, body) {
         // Let's check if the browser supports notifications
         if (!("Notification" in window)) {
@@ -53,7 +58,7 @@
             if (permission === "granted") {
                 var options = {
                     //icon:"",
-                    body: body,
+                    body: body
                 };
                 var notification = new Notification(title, options);
                 notification.onclick = function () {
@@ -124,7 +129,8 @@
 
 
     Qu.close = function () {
-        win.close()
+        win.close();
+        backgroundWin.close();
     };
     Qu.hide = function () {
         win.hide()
@@ -226,11 +232,7 @@
         close: function () {
             tray.remove();
             tray = null;
-            tray.trayMenu.close();
+            //tray.trayMenu.close();
         }
     };
-
-
-    //};
-
 }());
