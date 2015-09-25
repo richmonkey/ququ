@@ -5,9 +5,8 @@
   "node-main": "application.js",
   "description": "ququ",
   "productName": "ququ",
-  //"node-remote": "http://czmin.com",
   "user-agent": "Mozilla/5.0 (%osinfo) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/%webkit_ver Safari/537.36 nw",
-  "single-instance": true,
+  "single-instance": false,
   "window": {
     "toolbar":true,
     "min_width": 900,
