@@ -75,7 +75,7 @@
     });
 
     hubConnection.disconnected(function (conn) {
-        cnosole.log("已断开连接", "red", 2);
+        console.log("已断开连接", "red", 2);
         Connect();
     });
     hubConnection.error(function (connection, errorData, sendData) {
@@ -107,7 +107,7 @@
             console.log("连接出错：" + error);
         });
     };
-    Connect();
+    //Connect();
 
     //发送测试消息
     Qu.send = function () {

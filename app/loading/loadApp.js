@@ -10,30 +10,9 @@ var newWin = null,
 
 gui.App.clearCache(); // 清除缓存
 
-function handle(cb) {
-    currentWin = gui.Window.get();
-    startLoadApp(cb);
-
-    reloadTimer = setInterval(function () {
-        startLoadApp(cb);
-    }, 20 * 1000);
-
-    global.isLoading = true;
-    global.currentWin = currentWin;
-}
-
-
 //让加载页窗口跳转到newWin后台打开的项目首页（可直接复用缓存到浏览器中的项目首页资源）
 function loadContentInCurrentWindow(currentWin, appUrl) {
     currentWin.window.location.href = appUrl;
-}
-
-function checkNetworkConnected(cb) {
-    if (navigator.onLine) {
-        cb(null, true);
-    } else {
-        cb(null, false);
-    }
 }
 
 function reloadAppRes() {
@@ -50,27 +29,48 @@ function reloadAppRes() {
     } else {
         newWin.window.location.href = appUrl;
     }
-
 }
 
-function startLoadApp(cb) {
-    checkNetworkConnected(function (err, res) {
-        if (err) {
-            isConnected = false;
-            lastNetState = false;
-            cb && cb();
-        }
-        if (res) {
-            isConnected = true;
-            if (!lastNetState) {
-                reloadAppRes();
-            }
-            lastNetState = true;
-            cb && cb();
-        } else {
-            isConnected = false;
-            lastNetState = false;
-            cb && cb();
-        }
-    });
+function startLoadApp() {
+    console.log("load main page");
+    reloadAppRes();
 }
+
+
+isConnected = navigator.onLine;
+
+var currentWin = gui.Window.get();
+
+var checkNetStatus = function() {
+    isConnected = navigator.onLine;
+    checkConnetionUpdateText();
+    if (isConnected) {
+        startLoadApp();
+    }
+};
+
+window.addEventListener('online',  checkNetStatus);
+window.addEventListener('offline',  checkNetStatus);
+
+reloadTimer = setInterval(function () {
+    if (isConnected) {
+        startLoadApp();
+    }
+}, 20 * 1000);
+
+
+function reload() {
+    clearInterval(reloadTimer);
+    //让加载中显示一下
+    setTimeout(function () {
+        checkNetStatus();
+    }, 500);
+
+    reloadTimer = setInterval(function () {
+        if (isConnected) {
+            startLoadApp();
+        }
+    }, 10 * 1000);
+}
+
+checkNetStatus();
