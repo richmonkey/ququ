@@ -11,44 +11,56 @@
   var currentWin = gui.Window.get();
   var backgroundUrl = gui.App.manifest.backgroundUrl;
   var gui = require('nw.gui');
-  
-  var backgroundWin = gui.Window.open(backgroundUrl, {
-      "show":false
-  });
 
-  var mainWindow = gui.Window.open("loading/loading.html", {
-      "show":true
-  });
+  var backgroundWin;
+  var mainWindow;
 
-  mainWindow.on("close", function (quit) {
-      if (quit) {
-          this.close(true);
-      } else {
-          this.hide();
+  function createAppWindow() {
+
+    backgroundWin = gui.Window.open(backgroundUrl, {
+        "show":false
+    });
+
+    mainWindow = gui.Window.open("loading/loading.html", {
+        "show":true
+    });
+    mainWindow.on("close", function (quit) {
+        if (quit) {
+            this.close(true);
+        } else {
+            this.hide();
+        }
+    });
+    
+    gui.App.on('reopen', function () {
+        mainWindow.show();
+    });
+
+    backgroundWin.once("loaded", function() {
+        console.log("clear reloadTimer");
+        clearInterval(reloadTimer);
+    });
+
+    var reloadTimer = setInterval(function () {
+        console.log("reload load background page");
+        backgroundWin.window.location.href = backgroundUrl;
+    }, 20 * 1000);
+
+    process.mainModule.exports.mainWindow = mainWindow;
+    process.mainModule.exports.backgroundWindow = backgroundWin;
+
+  }
+
+  if (process.mainModule.exports.firstStart != true) {
+    var checkTimer = setInterval(function() {
+      if (process.mainModule.exports.firstStart) {
+        clearInterval(checkTimer);
+        createAppWindow();
       }
-  });
-
-  mainWindow.on('focus', function () {
-      this.show();
-  });
-
-  gui.App.on('reopen', function () {
-      mainWindow.show();
-  });
-
-  backgroundWin.once("loaded", function() {
-      console.log("clear reloadTimer");
-      clearInterval(reloadTimer);
-  });
-
-  var reloadTimer = setInterval(function () {
-      console.log("reload load background page");
-      backgroundWin.window.location.href = backgroundUrl;
-  }, 20 * 1000);
-
-  process.mainModule.exports.mainWindow = mainWindow;
-  process.mainModule.exports.backgroundWindow = backgroundWin;
-
+    }, 10);
+  } else {
+    createAppWindow();
+  }
 </script>
 </body>
 </html>
