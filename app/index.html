@@ -22,7 +22,10 @@
     });
 
     mainWindow = gui.Window.open("loading/loading.html", {
-        "show":true
+        "show":true,
+        "frame":true,
+        "titlebar":true,
+        "toolbar":true
     });
     mainWindow.on("close", function (quit) {
         if (quit) {
@@ -31,7 +34,7 @@
             this.hide();
         }
     });
-    
+
     gui.App.on('reopen', function () {
         mainWindow.show();
     });
@@ -48,8 +51,10 @@
 
     process.mainModule.exports.mainWindow = mainWindow;
     process.mainModule.exports.backgroundWindow = backgroundWin;
-
   }
+  
+  process.mainModule.exports.dataPath = gui.App.dataPath;
+  process.mainModule.exports.main();
 
   if (process.mainModule.exports.firstStart != true) {
     var checkTimer = setInterval(function() {

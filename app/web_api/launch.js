@@ -32,7 +32,7 @@ if (process.platform == 'darwin') {
         });
     };
 
-    exports.enableLaunch = function() { 
+    exports.enableLaunch = function() {
         console.log("enable launch");
         fs.writeFileSync(plist, content, {flag:"w"});
     };
@@ -45,21 +45,22 @@ if (process.platform == 'darwin') {
 } else {
     var Winreg = require('winreg');
     var regKey = new Winreg({
-        hive: Winreg.HKCU,                                          // HKEY_CURRENT_USER 
-        key:  '\\Software\\Microsoft\\Windows\\CurrentVersion\\Run' // key containing autostart programs 
+        hive: Winreg.HKCU,                                          // HKEY_CURRENT_USER
+        key:  '\\Software\\Microsoft\\Windows\\CurrentVersion\\Run' // key containing autostart programs
     });
 
     var ququ_key = "ququ";
-    
+
     //windows
     exports.isOn = function(cb) {
         regKey.get(ququ_key, function(err, result) {
             if (err) {
                 console.log("get ququ registry err:" + err);
                 cb(err, false);
-                return 
+                return
             }
-            if (process.execPath != result) {
+            var execPath = '"' + process.execPath + '"';
+            if (execPath != result) {
                 cb(null, false);
                 return;
             }
@@ -67,13 +68,13 @@ if (process.platform == 'darwin') {
         });
     };
 
-    exports.enableLaunch = function() { 
-        var execPath = process.execPath;
+    exports.enableLaunch = function() {
+        var execPath = '"' + process.execPath + '"';
         regKey.set(ququ_key, Winreg.REG_SZ, execPath, function(err, result) {
             if (err) {
                 console.log("enable launch err:" + err);
                 return
-            } 
+            }
             console.log("enable launch result:" + result);
         });
     };
@@ -83,7 +84,7 @@ if (process.platform == 'darwin') {
             if (err) {
                 console.log("disable launch err:" + err);
                 return
-            } 
+            }
             console.log("disable launch result:" + result);
         });
     };

@@ -30,8 +30,6 @@ SolidCompression=yes
 
 [Registry]
 ;current user only
-Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "ququ"; ValueData: "{app}\ququ.exe"; Flags: uninsdeletekey
-
 
 ;lodop
 Root: HKCU; Subkey: "Software\MozillaPlugins\@MountTaiSoftware.com/web_print_lodop,version=6.1"; ValueType: string; ValueName: "Path"; ValueData: "{pf}\MountTaiSoftware\Lodop\NPCAOSOFT_WEB_PRINT_lodop.dll"; Flags: uninsdeletekey

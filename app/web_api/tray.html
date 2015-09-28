@@ -121,7 +121,7 @@
         var close = document.getElementById("titlebar_close");
         var gui = require('nw.gui');
         var win = gui.Window.get();
-     
+
         if (e.target == minimize) {
             win.minimize();
         } else if (e.target == max) {
@@ -129,7 +129,6 @@
         } else if (e.target == close) {
             win.close();
         }
-     
     };
 
 
@@ -140,6 +139,7 @@
         document.body.appendChild(element);
     };
 
+    Qu.connect();
     Qu.tray.init(demoCallback);
     document.getElementById('news').onclick = function () {
         Qu.send();
@@ -148,6 +148,7 @@
     document.getElementById('clean').onclick = function () {
         Qu.tray.clearNew();
     };
+
 
 </script>
 

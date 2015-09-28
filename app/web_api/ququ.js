@@ -28,7 +28,7 @@
         }
     });
 
-    
+
     var tray = null;
     var timer = 0;
     window._nwrequire = require;
@@ -100,14 +100,14 @@
         Qu.tray.hasNew();
     });
 
-    var Connect = function () {
+    Qu.connect = function () {
         hubConnection.start({transport: ["webSockets", "serverSentEvents", "longPolling", "foreverFrame"]}).done(function () {
             console.log("连接成功，开始接收消息...");
         }).fail(function (error) {
             console.log("连接出错：" + error);
         });
     };
-    //Connect();
+
 
     //发送测试消息
     Qu.send = function () {
@@ -135,17 +135,14 @@
                 mainWindow.focus();
             });
 
-            tray.tooltip = '点此打开';
+            tray.tooltip = '蛐蛐';
             var menu = new gui.Menu();
 
             menu.append(new gui.MenuItem({
-                label: "查看消息",
+                label: "发送消息",
                 click: function () {
-                    mainWindow.show();
-                    mainWindow.focus();
                     Qu.send();
-                    Qu.tray.clearNew();
-                    cb('加载消息');
+                    cb('发送消息');
                 }
             }));
 
@@ -181,16 +178,16 @@
             menu.append(silentItem);
 
             menu.append(new gui.MenuItem({
-                label: "注销",
+                label: "打开蛐蛐",
                 click: function () {
                     mainWindow.show();
                     mainWindow.focus();
-                    cb("注销");
+                    cb("打开蛐蛐");
                 }
             }));
 
             menu.append(new gui.MenuItem({
-                label: "退出",
+                label: "退出蛐蛐",
                 click: function () {
                     console.log("quit...");
                     process.exit(0);
