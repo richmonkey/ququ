@@ -8,26 +8,34 @@
   "user-agent": "Mozilla/5.0 (%osinfo) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/%webkit_ver Safari/537.36 nw",
   "single-instance": false,
   "window": {
-    "toolbar":false,
+    "toolbar": false,
     "min_width": 900,
     "min_height": 602,
     "width": 900,
     "height": 602,
     "icon": "res/logo.png",
     "resizable": true,
-    "frame":false,
-    "show":false
+    "frame": false,
+    "show": false
   },
   "webkit": {
     "plugin": true
   },
   "dependencies": {
-    "node-webkit-updater": "~0.2.3",
+    "node-webkit-updater": "^0.2.4",
     "request": "^2.63.0",
     "winreg": "0.0.12"
   },
   "backgroundUrl": "web_api/tray.html",
   "appUrl": "http://www.baidu.com",
 
-  "manifestUrl": "http://czmin.com/static/upgrade/menifest.json"
+  "manifestUrl": "http://localhost:81/static/package.json",
+  "packages": {
+      "mac": {
+          "url": "http://localhost:81/static/ququ_mac_v0.0.1.zip"
+      },
+      "win": {
+          "url": "http://localhost:81/static/ququ_win_v0.0.1.zip"
+      }
+  }
 }

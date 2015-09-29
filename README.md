@@ -1,7 +1,8 @@
 #安装依赖
 1. 安装nodejs  http://nodejs.org
 2. npm install
-3. npm install grunt-cli -g
+3. 安装app依赖: cd app && npm install
+4. npm install grunt-cli -g
 
 #生成可执行程序
 grunt nwjs

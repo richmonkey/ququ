@@ -190,7 +190,8 @@
                 label: "退出蛐蛐",
                 click: function () {
                     console.log("quit...");
-                    process.exit(0);
+                    process.mainModule.exports.runInstaller();
+                    gui.App.quit();
                 }
             }));
 

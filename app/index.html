@@ -6,6 +6,7 @@
 </head>
 
 <body>
+<script src="index.js" type="text/javascript"></script>
 <script type="text/javascript">
   var gui = require('nw.gui');
   var currentWin = gui.Window.get();
@@ -25,11 +26,16 @@
         "show":true,
         "frame":true,
         "titlebar":true,
+        "focus": true,
         "toolbar":true
     });
+
     mainWindow.on("close", function (quit) {
         if (quit) {
+            console.log("close main window");
             this.close(true);
+            //mac click quit on dock
+            process.mainModule.exports.runInstaller();
         } else {
             this.hide();
         }
@@ -52,19 +58,20 @@
     process.mainModule.exports.mainWindow = mainWindow;
     process.mainModule.exports.backgroundWindow = backgroundWin;
   }
-  
-  process.mainModule.exports.dataPath = gui.App.dataPath;
-  process.mainModule.exports.main();
 
-  if (process.mainModule.exports.firstStart != true) {
-    var checkTimer = setInterval(function() {
-      if (process.mainModule.exports.firstStart) {
-        clearInterval(checkTimer);
+  if(gui.App.argv.length == 0) {
+      process.mainModule.exports.dataPath = gui.App.dataPath;
+      process.mainModule.exports.main();
+      if (process.mainModule.exports.firstStart != true) {
+        var checkTimer = setInterval(function() {
+          if (process.mainModule.exports.firstStart) {
+            clearInterval(checkTimer);
+            createAppWindow();
+          }
+        }, 10);
+      } else {
         createAppWindow();
       }
-    }, 10);
-  } else {
-    createAppWindow();
   }
 </script>
 </body>
