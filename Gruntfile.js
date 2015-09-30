@@ -2,16 +2,25 @@ module.exports = function(grunt) {
     grunt.initConfig({
         nwjs: {
             options: {
-                platforms: ['win','osx'],
-                buildDir: './dist', 
+                platforms: ['win', 'osx'],
+                buildDir: './dist',
                 version: '0.12.3',
                 macIcns: "assets/osx/panda.icns",
                 macPlist: {
                     "CFBundleIdentifier":"com.wangsuo.ququ",
                 },
-                //winIco: "assets/win/panda.ico",
+                winIco: "assets/win/panda.ico",
             },
             src: ['./app/**/*']
+        },
+
+        zip: {
+          'osx64': {
+            src: ["dist/ququ/osx64/ququ.app/**"],
+            dest: 'dist/ququ/ququ_osx.zip',
+            compression: 'DEFLATE',
+            cwd: 'dist/ququ/osx64/'
+          }
         },
 
         appdmg: {
@@ -30,6 +39,8 @@ module.exports = function(grunt) {
             }
         }
     });
+
+    grunt.loadNpmTasks('grunt-zip');
 
     grunt.loadNpmTasks('grunt-nw-builder');
 
