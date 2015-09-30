@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body {
+            background-color: #ddd;
+        }
+    </style>
+
+    <style type="text/css">
+        body {
+            padding: 0;
+            margin: 0;
+            font-size: 13px;
+        }
+
+        div.bar {
+            width: 100%;
+            background: #f5f5f5;
+            text-align: left;
+            height: 30px;
+            line-height: 30px;
+        }
+
+        .paddinglr10 {
+            padding: 0 10px;
+        }
+
+        .floatright {
+            float: right;
+        }
+
+        .min {
+            background: url(images/ic_min.png) center no-repeat;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            display: inline-block;
+        }
+
+            .min:hover {
+                background: #02bb00 url(images/ic_min_w.png) center no-repeat;
+            }
+
+        .max {
+            background: url(images/ic_max.png) center no-repeat;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            display: inline-block;
+        }
+
+            .max:hover {
+                background: #02bb00 url(images/ic_max_w.png) center no-repeat;
+            }
+
+        .close {
+            background: url(images/ic_close.png) center no-repeat;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            display: inline-block;
+        }
+
+            .close:hover {
+                background: #f25561 url(images/ic_close_w.png) center no-repeat;
+            }
+    </style>
+
+</head>
+<body>
+<div id="titlebar" class="bar">
+    <span class="paddinglr10">蛐蛐</span>
+    <span class="floatright">
+        <a id="titlebar_min" class="min"></a>
+        <a id="titlebar_max" class="max"></a>
+        <a id="titlebar_close" class="close"></a>
+    </span>
+</div>
+
+
+<script>document.write(process.version); </script>
+<script>
+
+    function confirmUpdate(cb){
+        cb(true);
+    }
+
+
+    var gui = require('nw.gui');
+    var win = gui.Window.get();
+    var isMaximize = false;
+    win.on("maximize", function () {
+        isMaximize = true;
+    });
+    win.on("unmaximize", function() {
+        isMaximize = false;
+    });
+
+    var titlebar = document.getElementById("titlebar");
+    titlebar.onclick = function(e) {
+        var minimize = document.getElementById("titlebar_min");
+        var max = document.getElementById("titlebar_max");
+        var close = document.getElementById("titlebar_close");
+
+        if (e.target == minimize) {
+            win.minimize();
+        } else if (e.target == max) {
+            console.log("maximize");
+            if (isMaximize) {
+              win.unmaximize();
+            } else {
+              win.maximize();
+            }
+        } else if (e.target == close) {
+            win.close();
+        }
+    };
+
+
+
+
+</script>
+
+</body>
+</html>

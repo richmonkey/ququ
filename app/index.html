@@ -34,12 +34,11 @@
         if (quit) {
             console.log("close main window");
             this.close(true);
-            //mac click quit on dock
-            process.mainModule.exports.runInstaller();
         } else {
             this.hide();
         }
     });
+
 
     gui.App.on('reopen', function () {
         mainWindow.show();

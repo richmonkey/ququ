@@ -12,6 +12,10 @@
     var gui = require('nw.gui');
     var mainWindow = process.mainModule.exports.mainWindow;
 
+    mainWindow.on("focus", function() {
+        Qu.tray.clearNew();
+    });
+
     var launch = require("./web_api/launch.js");
     var config = require("./web_api/config.js");
     var dataPath = gui.App.dataPath;
@@ -190,7 +194,6 @@
                 label: "退出蛐蛐",
                 click: function () {
                     console.log("quit...");
-                    process.mainModule.exports.runInstaller();
                     gui.App.quit();
                 }
             }));

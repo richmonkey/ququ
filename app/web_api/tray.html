@@ -9,102 +9,13 @@
         }
     </style>
 
-    <style type="text/css">
-        body {
-            padding: 0;
-            margin: 0;
-            font-size: 13px;
-        }
-
-        div.bar {
-            width: 100%;
-            background: #f5f5f5;
-            text-align: left;
-            height: 30px;
-            line-height: 30px;
-        }
-
-        .paddinglr10 {
-            padding: 0 10px;
-        }
-
-        .floatright {
-            float: right;
-        }
-
-        .min {
-            background: url(images/ic_min.png) center no-repeat;
-            width: 30px;
-            height: 30px;
-            line-height: 30px;
-            display: inline-block;
-        }
-
-            .min:hover {
-                background: #02bb00 url(images/ic_min_w.png) center no-repeat;
-            }
-
-        .max {
-            background: url(images/ic_max.png) center no-repeat;
-            width: 30px;
-            height: 30px;
-            line-height: 30px;
-            display: inline-block;
-        }
-
-            .max:hover {
-                background: #02bb00 url(images/ic_max_w.png) center no-repeat;
-            }
-
-        .close {
-            background: url(images/ic_close.png) center no-repeat;
-            width: 30px;
-            height: 30px;
-            line-height: 30px;
-            display: inline-block;
-        }
-
-            .close:hover {
-                background: #f25561 url(images/ic_close_w.png) center no-repeat;
-            }
-    </style>
 
 </head>
 <body>
-<div id="titlebar" class="bar">
-    <span class="paddinglr10">蛐蛐</span>
-    <span class="floatright">
-        <a id="titlebar_min" class="min"></a>
-        <a id="titlebar_max" class="max"></a>
-        <a id="titlebar_close" class="close"></a>
-    </span>
-</div>
-
 
 <audio id="player" src="audio-file.wav">
     Your browser does not support the audio element.
 </audio>
-
-
-<input type="button" id="close" value="close"/>
-
-
-<br/>
-<br/>
-<input type="button" id="news" value="发送消息"/>
-<br/>
-<br/>
-<input type="button" id="clean" value="取消提醒"/>
-<br/>
-<br/>
-远程页面
-<br/>
-<br/>
-
-
-<!--<input type="button" id="add-tray" value="tray"/>-->
-<!--<input type="button" id="remove-tray" value="remove tray"/>-->
-
 
 <script src="jquery-1.11.2.min.js" type="text/javascript"></script>
 <script src="json2.min.js" type="text/javascript"></script>
@@ -113,43 +24,17 @@
 
 <script>document.write(process.version); </script>
 <script>
+    onload = function() {
+        ///创建托盘///
+        var demoCallback = function (text) {
+            var element = document.createElement('div');
+            element.appendChild(document.createTextNode(text));
+            document.body.appendChild(element);
+        };
 
-    var titlebar = document.getElementById("titlebar");
-    titlebar.onclick = function(e) {
-        var minimize = document.getElementById("titlebar_min");
-        var max = document.getElementById("titlebar_max");
-        var close = document.getElementById("titlebar_close");
-        var gui = require('nw.gui');
-        var win = gui.Window.get();
-
-        if (e.target == minimize) {
-            win.minimize();
-        } else if (e.target == max) {
-            win.maximize();
-        } else if (e.target == close) {
-            win.close();
-        }
-    };
-
-
-    ///创建托盘///
-    var demoCallback = function (text) {
-        var element = document.createElement('div');
-        element.appendChild(document.createTextNode(text));
-        document.body.appendChild(element);
-    };
-
-    Qu.connect();
-    Qu.tray.init(demoCallback);
-    document.getElementById('news').onclick = function () {
-        Qu.send();
-        Qu.tray.hasNew();
-    };
-    document.getElementById('clean').onclick = function () {
-        Qu.tray.clearNew();
-    };
-
-
+        Qu.connect();
+        Qu.tray.init(demoCallback);
+    }
 </script>
 
 </body>

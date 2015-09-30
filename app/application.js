@@ -18,19 +18,6 @@ exports.firstStart = null;
 
 exports.dataPath = null;
 
-exports.setupInstaller = function(upd1, newAppPath1) {
-    console.log("setup installer");
-    upd = upd1;
-    newAppPath = newAppPath1;
-}
-
-exports.runInstaller = function() {
-    if (upd) {
-        console.log("run installer");
-        upd.runInstaller(newAppPath, [upd.getAppPath(), upd.getAppExec()],{});
-    }
-}
-
 function getLogFilePath() {
   return exports.dataPath + "\\ququ_log.txt";
 }

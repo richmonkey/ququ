@@ -9,8 +9,11 @@ if(gui.App.argv.length) {
     execPath = gui.App.argv[1];
 
     // Replace old app
+    console.log("intall:" + copyPath);
     upd.install(copyPath, function(err) {
+      console.log("install err:" + err);
         if(!err) {
+            upd.run(execPath, null);
             gui.App.quit();
         }
     });
@@ -23,14 +26,28 @@ if(gui.App.argv.length) {
                 console.log("download err:" + error);
                 if (!error) {
                     console.log("downloaded");
-                    upd.unpack(filename, function(error, newAppPath) {
-                        if (!error) {
-                            //todo 提醒用户是否立刻重启应用
-                            console.log("unpacked:" + newAppPath);
-                            //在应用退出时再运行installer
-                            process.mainModule.exports.setupInstaller(upd, newAppPath);
-                        }
-                    }, manifest);
+                    var mainWindow = process.mainModule.exports.mainWindow;
+                    if (!mainWindow.window.confirmUpdate) {
+                        return;
+                    }
+                    mainWindow.window.confirmUpdate(function(up) {
+                          if (!up) {
+                            return;
+                          }
+                          if (process.platform == "win32") {
+                              gui.Shell.openItem(filename);
+                              gui.App.quit();
+                          } else {
+                              console.log("run installer");
+                              upd.unpack(filename, function(error, newAppPath) {
+                                  if (!error) {
+                                      console.log("unpacked:" + newAppPath);
+                                      upd.runInstaller(newAppPath, [upd.getAppPath(), upd.getAppExec()],{});
+                                      gui.App.quit();
+                                  }
+                              }, manifest);
+                          }
+                    });
                 }
             }, manifest);
         }
