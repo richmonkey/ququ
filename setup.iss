@@ -22,9 +22,9 @@ AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
-OutputDir=D:\ququ\dist
+OutputDir=dist\
 OutputBaseFilename=ququ_setup
-SetupIconFile=D:\ququ\assets\win\panda.ico
+SetupIconFile=assets\win\panda.ico
 Compression=lzma
 SolidCompression=yes
 
