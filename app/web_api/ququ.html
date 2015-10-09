@@ -80,10 +80,12 @@
     </span>
 </div>
 
+</script>
 
-<script>document.write(process.version); </script>
+<input type="button" id="test" value="测试"/>
+<input type="button" id="login" value="登录"/>
+
 <script>
-
     function confirmUpdate(cb){
         cb(true);
     }
@@ -119,6 +121,17 @@
         }
     };
 
+    var testButton = document.getElementById("test");
+    testButton.onclick = function() {
+      window.open("http://www.baidu.com/");
+      alert("test");
+    }
+
+    var loginButton = document.getElementById("login");
+    loginButton.onclick = function() {
+      win.resizeTo(900, 602);
+      win.setMinimumSize(900, 602);
+    }
 
 
 
