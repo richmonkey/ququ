@@ -83,7 +83,7 @@
 </script>
 
 <input type="button" id="test" value="测试"/>
-<input type="button" id="open_ie" value="打开ie"/>
+<input type="button" id="open_ie" value="打开支付页面"/>
 <input type="button" id="login" value="登录"/>
 
 <script>
@@ -148,7 +148,11 @@
 
     var openIEButton = document.getElementById("open_ie");
     openIEButton.onclick = function() {
+      if (process.platform === 'win32') {
         run("c:\\Program Files\\Internet Explorer\\iexplore.exe", ["www.baidu.com"]);
+      } else {
+        gui.Shell.openExternal("http://www.baidu.com/");
+      }
     }
 
     var loginButton = document.getElementById("login");
