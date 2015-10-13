@@ -82,9 +82,7 @@
 
 </script>
 
-<input type="button" id="test" value="测试"/>
-<input type="button" id="open_ie" value="打开支付页面"/>
-<input type="button" id="login" value="登录"/>
+<input type="button" id="logout" value="注销"/>
 
 <script>
     function confirmUpdate(cb){
@@ -122,47 +120,17 @@
         }
     };
 
-    var testButton = document.getElementById("test");
-    testButton.onclick = function() {
-      window.open("http://www.baidu.com/");
-      alert("test");
-    }
 
 
-    var spawn = require('child_process').spawn;
-    /**
-     * @private
-     */
-    function run(path, args, options){
-      var opts = {
-        detached: true
-      };
-      for(var key in options){
-        opts[key] = options[key];
-      }
-      var sp = spawn(path, args, opts);
-      sp.unref();
-      return sp;
-    }
 
-
-    var openIEButton = document.getElementById("open_ie");
-    openIEButton.onclick = function() {
-      if (process.platform === 'win32') {
-        run("c:\\Program Files\\Internet Explorer\\iexplore.exe", ["www.baidu.com"]);
-      } else {
-        gui.Shell.openExternal("http://www.baidu.com/");
-      }
-    }
-
-    var loginButton = document.getElementById("login");
-    loginButton.onclick = function() {
-      //打开登陆后的主窗口
-      var mainWindow = gui.Window.open("ququ_main.html", {
-          "min_width": 900,
-          "min_height": 602,
-          "width": 900,
-          "height": 602,
+    var logoutButton = document.getElementById("logout");
+    logoutButton.onclick = function() {
+      //打开登陆窗口
+      var mainWindow = gui.Window.open("ququ.html", {
+          "min_width": 300,
+          "min_height": 200,
+          "width": 300,
+          "height": 200,
           "show":true,
           "frame":true,
           "titlebar":true,
@@ -174,6 +142,8 @@
       //关闭当前窗口
       win.close(true);
     }
+
+
 
 </script>
 

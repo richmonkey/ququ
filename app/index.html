@@ -34,18 +34,12 @@
         "toolbar":true
     });
 
-    mainWindow.on("close", function (quit) {
-        if (quit) {
-            console.log("close main window");
-            this.close(true);
-        } else {
-            this.hide();
-        }
-    });
-
-
     gui.App.on('reopen', function () {
-        mainWindow.show();
+        console.log("app reopen...");
+        var win = process.mainModule.exports.mainWindow;
+        if (win) {
+           win.show();
+        }
     });
 
     backgroundWin.once("loaded", function() {
@@ -58,7 +52,7 @@
         backgroundWin.window.location.href = backgroundUrl;
     }, 20 * 1000);
 
-    process.mainModule.exports.mainWindow = mainWindow;
+    process.mainModule.exports.setMainWindow(mainWindow);
     process.mainModule.exports.backgroundWindow = backgroundWin;
   }
 

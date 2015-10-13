@@ -4,7 +4,6 @@
 var net = require('net');
 var fs = require('fs');
 
-
 var upd = null, newAppPath = null;
 //启动单个实例
 var server = null;
@@ -17,6 +16,19 @@ exports.backgroundWindow = null;
 exports.firstStart = null;
 
 exports.dataPath = null;
+
+exports.setMainWindow = function(mainWin) {
+    exports.mainWindow = mainWin;
+    exports.mainWindow.on("close", function (quit) {
+        if (quit) {
+            console.log("close main window");
+            this.close(true);
+        } else {
+            console.log("hide main window");
+            this.hide();
+        }
+    });
+}
 
 function getLogFilePath() {
   return exports.dataPath + "\\ququ_log.txt";
