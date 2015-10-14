@@ -4,6 +4,12 @@ if (process.platform == 'darwin') {
     var fs = require('fs');
     var path = require('path');
     var home = process.env['HOME'];
+    var dir = home + "/Library/LaunchAgents";
+    if (!fs.existsSync(dir)) {
+        console.log("mkdir:" + dir);
+        fs.mkdirSync(dir);
+    }
+
     var plist = home + "/Library/LaunchAgents/com.wangsuo.ququ.plist";
 
 
