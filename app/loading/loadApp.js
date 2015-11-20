@@ -1,5 +1,5 @@
 ﻿var gui = require('nw.gui');
-var appUrl = gui.App.manifest.appUrl;
+var appUrl = "";//gui.App.manifest.appUrl;
 var newWin = null,
     currentWin = null,
     isConnected = true,
@@ -73,4 +73,22 @@ function reload() {
     }, 10 * 1000);
 }
 
-checkNetStatus();
+window.addEventListener('message', function(event) {
+    appUrl = event.data
+    console.log("appurl:" + appUrl);
+    checkNetStatus();
+}, false);
+
+
+function Request(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var rs = window.location.search.substr(1).match(reg);
+    if (rs != null) return unescape(rs[2]); return null;
+}
+var url = Request("url");
+if (url) {
+    appUrl = url;
+    console.log("appurl:" + appUrl);
+    checkNetStatus();
+}
+

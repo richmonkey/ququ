@@ -16,23 +16,29 @@
   var backgroundWin;
   var mainWindow;
 
-  function createAppWindow() {
-
-    backgroundWin = gui.Window.open(backgroundUrl, {
-        "show":false
-    });
-
-    mainWindow = gui.Window.open("loading/loading.html", {
-        "min_width": 300,
-        "min_height": 200,
-        "width": 300,
-        "height": 200,
+  //显示加载页面， 在新窗口加载url
+  function loadURL(url) {
+    win = gui.Window.open("loading/loading.html?url="+url, {
+        "min_width": 900,
+        "min_height": 600,
+        "width": 900,
+        "height": 600,
         "show":true,
         "frame":true,
         "titlebar":true,
         "focus": true,
         "toolbar":true
     });
+
+    return win;  
+  }
+  function createAppWindow() {
+
+    backgroundWin = gui.Window.open(backgroundUrl, {
+        "show":false
+    });
+  
+    mainWindow = loadURL(gui.App.manifest.appUrl);
 
     gui.App.on('reopen', function () {
         console.log("app reopen...");
@@ -51,6 +57,17 @@
         console.log("reload load background page");
         backgroundWin.window.location.href = backgroundUrl;
     }, 20 * 1000);
+
+    var checkTimer = setInterval(function () {
+        var mainWin = process.mainModule.exports.mainWindow;
+        if (mainWin) {
+            var ref = mainWin.window.location.href;
+            if (ref == "data:text/html,chromewebdata") {
+                console.log("load error");
+                mainWin.window.location.href = "loading/loading_error.html";
+            }
+        }
+    }, 2 * 1000);
 
     process.mainModule.exports.setMainWindow(mainWindow);
     process.mainModule.exports.backgroundWindow = backgroundWin;
